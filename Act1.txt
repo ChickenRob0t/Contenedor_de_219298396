@@ -1,0 +1,68 @@
+def cargar_datos():
+    try:
+        with open(ruta_txt, "r", encoding="utf-8") as f:
+            contenido = f.read()
+    except:
+        contenido = "No se pudo leer el archivo"
+
+    label_datos.config(text=contenido)
+
+
+# Cargar imágenes (cambia las rutas a las tuyas)
+img_left = PhotoImage(file="molex11.png")
+img_right = PhotoImage(file="molex21.png")
+
+# --- Rectángulo negro de fondo (header completo) ---
+header_bg = tk.Frame(root, bg="#1a1a1a")
+header_bg.pack(fill="x")  # ocupa todo el ancho
+
+# --- Frame para el título y las imágenes (ahora DENTRO del header negro) ---
+title_frame = tk.Frame(header_bg, bg="#1a1a1a")  # 👈 importante: mismo color y dentro de header_bg
+title_frame.pack(pady=10, fill="x")
+
+# Imagen izquierda
+lbl_img_left = tk.Label(title_frame, image=img_left, bg="#1a1a1a")
+lbl_img_left.pack(side="left", padx=10)
+
+# Título con recuadro blanco alrededor
+title_button = tk.Button(
+    title_frame,  # importante: tk.Button en lugar de ttk.Button para permitir bg
+    text="Programa de apoyo de cambio de daughters",
+    font=("Cambria", 22, "bold"),
+    bg="white",
+    fg="black",
+    bd=0,
+    relief="solid",
+    padx=15,
+    pady=10,
+    command=cargar_datos,
+    cursor="hand2"
+)
+title_button.pack(side="left", expand=True, padx=10)
+
+
+# Imagen derecha
+lbl_img_right = tk.Label(title_frame, image=img_right, bg="#1a1a1a")
+lbl_img_right.pack(side="left", padx=10)
+
+# --- Frame info ---
+frame_info = ttk.Frame(root, padding=10)
+frame_info.pack(pady=20)
+
+# --- Títulos de columnas ---
+titulos = ["Nombre", "Edad", "Ciudad", "Ocupación", "País"]
+
+for i, texto in enumerate(titulos):
+    label = ttk.Label(
+        frame_info,
+        text=texto,
+        font=("Segoe UI", 11, "bold"),
+        anchor="center",
+        borderwidth=2,
+        relief="ridge",
+        padding=5
+    )
+    label.grid(row=0, column=i, padx=6, pady=5, sticky="nsew")
+
+for i in range(5):
+    frame_info.columnconfigure(i, weight=1)
