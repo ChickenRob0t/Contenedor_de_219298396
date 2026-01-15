@@ -1,15 +1,26 @@
+from openpyxl import load_workbook
+from openpyxl.styles import PatternFill
 
-class BadConfigRootError(Exception):
-    """Has bad routing xml"""
-    pass
+# --- Abrir archivo ---
+wb = load_workbook("datos.xlsx")
+ws = wb["Sheet1"]
 
-def check_prop():
-    if datetime.datetime(2025, 6, 1)>datetime.datetime.now():
-        pass    
-    else:
-        raise BadConfigRootError("It dont works correctly, try using another caracter design")
-        raise 
+# --- Listas de números ---
+lista_verde = [10, 20, 30, 40]
+lista_amarilla = [15, 25, 35]
 
-def cracking_n():
-    check_prop()
-    print('Algo más haciéndose así')
+# --- Estilos ---
+fill_verde = PatternFill(start_color="C6EFCE", end_color="C6EFCE", fill_type="solid")
+fill_amarillo = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
+
+# --- Rango a revisar ---
+for row in ws.iter_rows(min_row=1, max_row=10, min_col=1, max_col=4):
+    for cell in row:
+        if isinstance(cell.value, (int, float)):
+            if cell.value in lista_verde:
+                cell.fill = fill_verde
+            elif cell.value in lista_amarilla:
+                cell.fill = fill_amarillo
+
+# --- Guardar ---
+wb.save("datos_coloreados.xlsx")
